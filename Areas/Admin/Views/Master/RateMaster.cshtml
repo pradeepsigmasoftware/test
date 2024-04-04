@@ -1,0 +1,309 @@
+﻿@model Hotel.Areas.Admin.DTO.RateMaster_Cls
+@using System.Data
+
+<div class="row">
+	<div class="col-sm-6">
+
+		<ul class="breadcrumb">
+
+			<li><a href="/Admin/Dashboard" class="active"><i class="fa fa-list-alt"></i> Quick Navigation</a></li>
+			<li><span id="parapageheading"> Master - Rate Master</span> </li>
+		</ul>
+
+	</div>
+</div>
+
+
+<form action="RateMaster" enctype="multipart/form-data" method="post" novalidate="novalidate">
+	<div class="row" id="DivNew" style="display: none">
+		<div class="col-md-12">
+			<div class="grid simple form-grid">
+				<div class="grid-title no-border">
+					<h3 class="hdd1">Add  Rate </h3>
+				</div>
+				@* <input type="hidden" id="hd_CityId" value="@Model.CityId" /> *@
+				<div class="grid-body no-border">
+					<div class="row">
+
+						<div class="col-md-3">
+							<div class="form-group">
+								<label class="form-label">Hotel Name</label>
+								<div class="input-with-icon right">
+									<i class=""></i>
+									<select class="form-control" id="ddlHotel" onchange="BindHotelCategory('ddlHotel')" name="HotelId">
+										<option value="">Select City</option>
+									</select>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-md-3">
+							<div class="form-group">
+								<label class="form-label">Category Name</label>
+								<div class="input-with-icon right">
+									<i class=""></i>
+									<select class="form-control" id="ddlCategory" name="CategoryId">
+										<option value="">Select City</option>
+									</select>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-md-3">
+							<div class="form-group">
+								<label class="form-label">Price Per Day</label>
+								<div class="input-with-icon right">
+									<input maxlength="10" placeholder="Enter Price Per Day" type="text" class="form-control" id="PricePerDay" name="PricePerDay">
+
+								</div>
+							</div>
+						</div>
+
+						<div class="col-md-3">
+							<div class="form-group">
+								<label class="form-label">Price Difference</label>
+								<input placeholder="Enter Price Difference" class="form-control" id="PriceDifference" name="PriceDifference" type="text" value="">
+
+							</div>
+						</div>
+						
+					</div>
+					<div class="row">
+						<div class="col-md-3">
+							<div class="form-group">
+								<label class="form-label">Extra Bed Percentage</label>
+								<input placeholder="Enter Extra Bed Percentage" class="form-control" id="ExtraBedPercentage" name="ExtraBedPercentage" type="text" value="">
+
+							</div>
+						</div>
+
+						<div class="col-md-3">
+							<div class="form-group">
+								<label class="form-label">Rate Start Date</label>
+								<input placeholder="Enter Rate Start Date" class="form-control" id="RateStartDate" name="RateStartDate" type="date" value="">
+
+							</div>
+						</div>
+
+						<div class="col-md-3">
+							<div class="form-group">
+								<label class="form-label">Rate End Date</label>
+								<input placeholder="Enter Rate End Date" class="form-control" id="RateEndDate" name="RateEndDate" type="date" value="">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-4"> </div>
+						<div class="col-md-4">
+							<div class="form-group">
+								<div class="text-center">
+									@Html.HiddenFor(a => a.RateID)
+									<button class="btn btn-success btn-cons" type="submit" id="btnSubmit" onclick="return Validation()"><i class="fa fa-check"></i>Save</button>
+									<a href="/Masters/ClearModel" class="btn btn-danger btn-cons" id="lnkCancel"><i class="fa fa-times"></i>Cancel</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</form>
+<div class="row" id="DivView" style="display: block;">
+	<div class="col-md-12">
+		<div class="grid simple form-grid">
+			<div class="grid-title no-border">
+				<div class="row">
+					<div class="col-md-4">
+					</div>
+					<div class="col-md-4">
+						<h3 class="hdd1">Add Hotel </h3>
+					</div>
+					<div class="col-md-4">
+						<div class="text-right">
+							<button class="btn btn-small btn-primary btn-demo-space" type="button" id="btnNew">Add New</button>
+							<button class="btn btn-small btn-white btn-demo-space" type="button" id="btnView">View All</button>
+						</div>
+					</div>
+				</div>
+
+
+			</div>
+			<div class="grid-body no-border">
+
+				<div class="grid-body">
+
+					<table class="table table-bordered DataTableS">
+						<tr role="row" class="odd">
+							<th class="sorting_1">SR.No.</th>
+							<th>HOTEL NAME</th>
+							<th>Category</th>
+							<th>Price/Day</th>
+							<th>Price Difference</th>
+							<th>Extra Bed Percentage</th>
+							<th>Rate Start Date</th>
+							<th>Rate End Date</th>
+							<th>Entry Date</th>
+							<th>Edit</th>
+							<th>Delete</th>
+
+						</tr>
+						<tr>
+							@{
+								int srno = 1;
+								if (Model.dt != null && Model.dt.Rows.Count > 0)
+								{
+
+									foreach (DataRow item in Model.dt.Rows)
+									{
+											<tr>
+												<td>@srno</td>
+												<td>@item["HotelName"]</td>
+												<td>@item["Category"]</td>
+												<td>@item["PricePerDay"]</td>
+												<td>@item["PriceDifference"]</td>
+												<td>@item["ExtraBedPercentage"]</td>
+												<td>@item["RateStartDate"]</td>
+												<td>@item["RateEndDate"]</td>
+												<td>@item["EntryDate"]</td>
+
+												<td>
+													<a href="/admin/master/RateMaster?Id=@item["RateID"]" class="btn btn-primary btn-small" id="lnkEdit"><i class="fa fa-pencil"></i>
+												</td>
+												<td>
+													<a href="/Masters/DeleteConfirmed?HID=HTL97314" class="btn btn-danger btn-small" id="lnkDelete" onclick="return confirm('Are you sure to delete this hotel?')"><i class="fa fa-trash"></i></a>
+
+												</td>
+											</tr>
+										srno++;
+									}
+								}
+							}
+						</tr>
+
+					</table>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	var val = '@Model.RateID';
+	if (val != 0) {
+		document.getElementById("DivNew").style.display = "block";
+		document.getElementById("DivView").style.display = "none";
+	}
+	else {
+		document.getElementById("DivNew").style.display = "none";
+		document.getElementById("DivView").style.display = "block";
+	}
+	$('#btnRommView').click(function () {
+		$('#DivView').hide();
+		$('#DivNew').hide();
+		$('#DivEdit').hide();
+		$('#DivViewImege').show();
+	});
+
+	$('#btnNew').click(function () {
+		$('#DivView').hide();
+		$('#DivNew').show();
+		$('#DivViewImege').hide();
+		BindHotel();
+		BindHotelCategory()
+	});
+
+	$(document).ready(function () {
+		$("#PricePerDay").val('@Model.PricePerDay');
+		$("#PriceDifference").val('@Model.PriceDifference');
+		$("#ExtraBedPercentage").val('@Model.ExtraBedPercentage');
+		$("#RateStartDate").val('@Model.RateStartDate');
+		$("#RateEndDate").val('@Model.RateEndDate');
+		BindHotel();
+	});
+
+	function Validation(){
+		var ddlHotel = $('#ddlHotel').val();
+		var ddlCategory = $('#ddlCategory').val();
+		var PricePerDay = $('#PricePerDay').val();
+		var PriceDifference = $('#PriceDifference').val();
+		var ExtraBedPercentage = $('#ExtraBedPercentage').val();
+		var RateStartDate = $('#RateStartDate').val();
+		var RateEndDate = $('#RateEndDate').val();
+
+		if (ddlHotel == '') {
+			alert("Please Select Hotel Name !!!");
+			$('#ddlHotel').focus();
+			return false
+		}
+		if (ddlCategory == '') {
+			alert("Please Select Category Name !!!");
+			$('#ddlCategory').focus();
+			return false
+		}
+		if (PricePerDay == 0) {
+			alert("Please Enter Price Per Day !!!");
+			$('#PricePerDay').focus();
+			return false
+		}
+		if (PriceDifference == 0) {
+			alert("Please Enter Price Difference !!!");
+			$('#PriceDifference').focus();
+			return false
+		}
+
+		if (ExtraBedPercentage == 0) {
+			alert("Please Enter Extra Bed Percentage !!!");
+			$('#ExtraBedPercentage').focus();
+			return false
+		}
+
+		if (RateStartDate == '') {
+			alert("Please Select Rate Start Date !!!");
+			$('#RateStartDate').focus();
+			return false
+		}
+
+		if (RateEndDate == '') {
+			alert("Please Select Rate End Date !!!");
+			$('#RateEndDate').focus();
+			return false
+		}
+
+
+
+	}
+
+
+	function BindHotel() {
+		$.post('/admin/master/BindHotelWithoutId', {}, function (result) {
+			$("#ddlHotel").empty();
+			$.each(result, function (i, data) {
+				$("#ddlHotel").append("<option value='" + data.value + "'> " + data.text + "</option>")
+			});
+
+			if ('@Model.HotelId' != '' && '@Model.HotelId' != undefined && '@Model.HotelId' != '0') {
+				$("#ddlHotel").val('@Model.HotelId');
+
+				BindHotelCategory();
+			}
+		});
+	}
+
+	function BindHotelCategory() {
+		$.post('/admin/master/BindCategoryMaster', { id: $("#ddlHotel").val() }, function (result) {
+			$("#ddlCategory").empty();
+			$.each(result, function (i, data) {
+				$("#ddlCategory").append("<option value='" + data.value + "'>" + data.text + "</option>")
+			});
+
+			if ('@Model.CategoryId' != '' && '@Model.CategoryId' != undefined && '@Model.CategoryId' != '0') {
+				$("#ddlCategory").val('@Model.CategoryId');
+			}
+
+		})
+	}
+
+</script>

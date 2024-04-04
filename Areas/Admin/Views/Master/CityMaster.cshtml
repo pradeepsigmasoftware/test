@@ -1,0 +1,196 @@
+﻿@model Hotel.Areas.Admin.DTO.CityMaster_Cls
+@using System.Data
+<script src="~/commonjs/dropdown.js"></script>
+
+<div class="row">
+	<div class="col-sm-6">
+		<ul class="breadcrumb">
+			<li><a href="/Admin/Dashboard" class="active"><i class="fa fa-list-alt"></i> Quick Navigation</a></li>
+			<li><span id="parapageheading"> Master - City Master</span> </li>
+		</ul>
+	</div>
+	@* <div class="col-sm-3">
+	<div class="download_btn">
+	<a class="mew" href="../img/UPSTDC-LOGO.pdf">Download UPSTDC Logo</a>
+	</div>
+	</div> *@
+</div>
+
+
+<form method="post" id="myForm">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="grid simple form-grid">
+				<div class="grid-title no-border">
+					<h3 class="hdd1"> <strong>City Master </strong> </h3>
+				</div>
+				<div class="grid-body no-border">
+					<div class="col-md-3">
+						<div class="form-group">
+							<label class="form-label">State</label>
+							<select class="form-control" data-val="true" data-val-required="*This Field is Required." id="ddlState" name="StateId">
+								<option value="-1">Select State</option>
+							</select>
+							<span class="field-validation-valid error" data-valmsg-for="StateId" data-valmsg-replace="true"></span>
+						</div>
+					</div>
+
+
+					<div class="col-md-3">
+						<div class="form-group">
+							<label class="form-label">City Name</label>
+							<input placeholder="City Name" class="form-control" data-val="true" data-val-required="*This Field is Required." id="CityName" name="CityName" type="text" value="">
+							<span class="field-validation-valid error" data-valmsg-for="CityName" data-valmsg-replace="true"></span>
+
+						</div>
+					</div>
+					<div class="col-md-3">
+						<div class="form-group">
+							<label class="form-label">City Code</label>
+							<input placeholder="City Code" class="form-control" data-val="true" data-val-required="*This Field is Required." id="CityCode" name="UnitAbbr" type="text" value="">
+							<span class="field-validation-valid error" data-valmsg-for="UnitAbbr" data-valmsg-replace="true"></span>
+
+						</div>
+					</div>
+					<div class="col-md-3">
+						<div class="form-actions1">
+							<div class="pull-right">
+								@Html.HiddenFor(a => a.Id)
+								<button class="btn btn-success btn-cons" type="submit" onclick="return formValidation()"><i class="icon-ok"></i>Save</button>
+								<a href="/Masters/ClearCityModel" class="btn btn-danger btn-cons" id="lnkCancel"><i class="fa fa-times"></i>Cancel</a>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+		<div class="col-md-12">
+			<div class="grid simple form-grid">
+				<div class="grid-title no-border">
+					<h3 class="hdd1"><strong> City  Details </strong> </h3>
+				</div>
+				<div class="grid-body">
+					<script src="/bootstrap-datatable/js/jquery.dataTables.min.js"></script>
+					<script src="/bootstrap-datatable/js/buttons.bootstrap4.min.js"></script>
+					<script src="/bootstrap-datatable/js/buttons.colVis.min.js"></script>
+					<script src="/bootstrap-datatable/js/buttons.html5.min.js"></script>
+					<script src="/bootstrap-datatable/js/buttons.print.min.js"></script>
+					<script src="/bootstrap-datatable/js/dataTables.bootstrap4.min.js"></script>
+					<script src="/bootstrap-datatable/js/dataTables.buttons.min.js"></script>
+					<script src="/bootstrap-datatable/js/jszip.min.js"></script>
+					<script src="/bootstrap-datatable/js/pdfmake.min.js"></script>
+					<script src="/bootstrap-datatable/js/vfs_fonts.js"></script>
+					<script>
+						$(document).ready(function () {
+							$(".DataTableS").DataTable({
+								dom: 'Bfrtip',
+								pageLength: 10,
+								lengthMenu: [[10, 15, 20, 50, 100, 500, -1], [10, 15, 20, 50, 100, 500, "All"]],
+								buttons: [
+									'pageLength',
+									{
+										extend: 'excelHtml5', footer: true,
+									},
+									{ extend: 'csvHtml5', footer: true },
+									{
+										extend: 'pdfHtml5', footer: true, orientation: 'landscape',
+
+										pageSize: 'LEGAL',
+										text: '<i class="fa fa-file-pdf-o"> PDF</i>',
+										titleAttr: 'PDF'
+									}
+								]
+							});
+						});
+
+					</script>
+					<div class="">
+						<table class="table table-bordered  DataTableS">
+							<thead>
+								<tr role="row">
+									<th aria-sort="ascending" aria-label="SrNo: activate to sort column descending">SrNo</th>
+									<th aria-label="Start Amount: activate to sort column ascending">City Name</th>
+									<th aria-label="Start Amount: activate to sort column ascending">City Code</th>
+									<th aria-label="End Amount: activate to sort column ascending">State Name</th>
+									<th aria-label="Edit: activate to sort column ascending">Edit</th>
+									<th aria-label="Delete: activate to sort column ascending">Delete</th>
+								</tr>
+							</thead>
+							<tbody>
+								@{
+									int srno = 1;
+									@if (Model.dt != null && Model.dt.Rows.Count > 0)
+									{
+										foreach (DataRow dr in Model.dt.Rows)
+										{
+											<tr class="odd">
+												<td>@srno</td>
+												<td>@dr["CityName"]</td>
+												<td>@dr["UnitAbbr"]</td>
+												<td>@dr["StateName"]</td>
+												<td>
+													<a href="/Admin/Master/CityMaster?ID=@dr["Id"]" class="btn btn-primary btn-small" id="lnkEdit"><i class="fa fa-pencil"></i></a>
+
+												</td>
+												<td>  <a href="/Masters/DeleteCity?CID=@dr["Id"]" class="btn btn-danger btn-small" id="lnkDelete" onclick="return confirm('Are you sure to delete this City?')"><i class="fa fa-trash"></i></a></td>
+
+											</tr>
+											srno++;
+										}
+
+									}
+								}
+
+							</tbody>
+						</table>
+
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</form>
+
+
+<script>
+	$(document).ready(function () {
+		BindState('ddlState', '@Model.StateId');
+		$('#CityName').val('@Model.CityName');
+		$('#CityCode').val('@Model.UnitAbbr');
+
+
+
+	});
+
+	function formValidation() {
+
+		var ddlState = $('#ddlState').val();
+		var CityName = $('#CityName').val();
+		var CityCode = $('#CityCode').val();
+
+		if (ddlState == "") {
+			alert("Please Select State !!!");
+			$("#ddlState").focus();
+			return false
+		}
+		if (CityName == "") {
+			alert("Please Enter City Name !!!");
+			$("#CityName").focus();
+			return false
+		}
+		if (CityCode == "") {
+			alert("Please Enter City Code !!!");
+			$("#CityCode").focus();
+			return false
+		}
+
+	}
+
+
+
+
+
+</script>

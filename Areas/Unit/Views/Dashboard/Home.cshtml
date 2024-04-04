@@ -1,0 +1,197 @@
+﻿@model Hotel.Areas.Unit.DTO.UnitHomeViewModel
+@using System.Data;
+
+<script src="~/commonjs/unithome.js"></script>
+
+<style>
+    .de {
+        margin: 4px 0px 4px 0px;
+    }
+
+    input[type="radio"], input[type="checkbox"] {
+        margin: 4px 0 0;
+        margin-top: 1px;
+        line-height: normal;
+        cursor: pointer;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        WIDTH: 22PX;
+        HEIGHT: 22PX;
+    }
+
+    .selectedExtrabedinput
+    {
+        width: 69px !important;
+    }
+</style>
+
+<div class="row">
+    <div class="col-sm-6">
+        <ul class="breadcrumb">
+            <li><a href="/Unit/Dashboard/Home" class="active"><i class="fa fa-list-alt"></i> Dashboard</a></li>
+            <li><a href="/Unit/Dashboard" class="active"><i class="fa fa-list-alt"></i> Quick Navigation</a></li>
+            <li><a href="#" style="cursor:text"> <span id="parapageheading">Unit-Dashboard</span></a> </li>
+        </ul>
+
+    </div>
+</div>
+
+<div class="row" id="divMain">
+    <div class="col-md-12" id="divMain2">
+        <div class="grid simple no-border">
+
+            <div class="grid-title ">
+                <h3 class="hdd1">
+                    <strong>Checked-in guests</strong>
+                </h3>
+
+            </div>
+            <div class="row">
+                <div class="table-responsive">
+
+                    <table class="table table-bordered" id="tblCheckedIn">
+                        <thead>
+                            <tr>
+                                <th>Booking Id</th>
+                                <th>Guest Name</th>
+                                <th>Mobile</th>
+                                <th>Check-In date</th>
+                                <th>Check-out date</th>
+                                <th>Rooms</th>
+                                <th>Room No.</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model != null && Model.Table2 != null && Model.Table2.Rows.Count > 0)
+                            {
+                                foreach (DataRow item in Model.Table2.Rows)
+                                {
+                                    <tr>
+                                        <td>@item["DocketeNo"]</td>
+                                        <td>@item["GuestName"]</td>
+                                        <td>@item["GuestMobileNo"]</td>
+                                        <td>@item["CheckInDate"]</td>
+                                        <td>@item["CheckOutDate"]</td>
+                                        <td>@item["NoOfRoom"]</td>
+                                        <td>@item["Rooms"]</td>
+                                        <td> <a href="/Unit/ManageBooking/Index?BookingId=@item["BookingId"]" class="btn btn-danger">Manage Booking</a> </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <br>
+            </div>
+
+
+            <div class="grid-title ">
+                <h3 class="hdd1">
+                    <strong>Guests yet to check-in today</strong>
+                </h3>
+
+            </div>
+            <div class="row">
+                <div class="table-responsive">
+
+
+                    <table class="table table-bordered" border="0" id="tblCheckIn">
+                        <thead>
+                            <tr>
+                                <th>Booking Id</th>
+                                <th>Guest Name</th>
+                                <th>Mobile</th>
+                                <th>Rooms</th>
+                                <th>Check-In Date</th>
+                                <th>Check-Out Date</th>
+                                <th>Check-In</th>
+                            </tr>
+
+                        </thead>
+                        <tbody>
+
+                            @if (Model != null && Model.Table1 != null && Model.Table1.Rows.Count > 0)
+                            {
+                                foreach (DataRow item in Model.Table1.Rows)
+                                {
+                                    <tr>
+                                        <td>@item["DocketeNo"]</td>
+                                        <td>@item["GuestName"]</td>
+                                        <td>@item["GuestMobileNo"]</td>
+                                        <td>@item["NoOfRoom"]</td>
+                                        <td>@item["CheckInDate"]</td>
+                                        <td>@item["CheckOutDate"]</td>
+                                        <td>
+                                            <a class="main-btn1" onclick="CheckIn_Step1(@item["BookingId"],'@item["DocketeNo"]')" style="font-size:20px">&nbsp;&nbsp;Check-In&nbsp;&nbsp;</a>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+                <br>
+            </div>
+
+            <div class="row grid simple vertical" id="CheckInMainDiv">
+            </div>
+
+
+
+
+            <div class="grid-title ">
+                <h3 class="hdd1">
+                    <strong>Guest checked-out today or dues not cleared</strong>
+                </h3>
+
+            </div>
+            <div class="row">
+                <div class="table-responsive">
+
+                    <table class="table table-bordered" id="tblCheckOut">
+                        <thead>
+                            <tr>
+                                <th>Sr.No</th>
+                                <th>Booking Id</th>
+                                <th>Guest Name</th>
+                                <th>Mobile</th>
+                                <th>Check-In date</th>
+                                <th>Check-out date</th>
+                                <th>Rooms</th>
+                                <th>Room No.</th>
+                                <th style="color:red">Due Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model != null && Model.Table3 != null && Model.Table3.Rows.Count > 0)
+                            {
+                                foreach (DataRow item in Model.Table3.Rows)
+                                {
+                                    <tr>
+                                        <td>@item["DocketeNo"]</td>
+                                        <td>@item["GuestName"]</td>
+                                        <td>@item["GuestMobileNo"]</td>
+                                        <td>@item["CheckInDate"]</td>
+                                        <td>@item["CheckOutDate"]</td>
+                                        <td>@item["NoOfRoom"]</td>
+                                        <td>@item["Rooms"]</td>
+                                        <td style="color:red">@item["DueAmt"]</td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+
+                    </table>
+                </div>
+                <br>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+

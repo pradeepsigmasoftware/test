@@ -1,0 +1,174 @@
+﻿.booking_form {
+    background-color: #fff;
+    border: .23529412em solid #00335d;
+    -webkit-border-radius: .17647059em;
+    -moz-border-radius: .17647059em;
+    -o-border-radius: .17647059em;
+    border-radius: .17647059em;
+    clear: both;
+    color: #1f1f1f;
+    margin-top: 1.;
+}
+
+    .booking_form h2 {
+        font-size: 1.1764705882352942em;
+        background-color: #00335d;
+        color: #fff;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        padding: .4em .7em .6em .7em;
+        margin: 0;
+        text-transform: none;
+    }
+
+.my {
+    padding: 0px;
+}
+
+.roomtype h2 {
+    border-right: 1px solid #c7c7c7;
+    padding-right: 1.38461538em;
+    border-top: 1px solid #c7c7c7;
+    /* border-bottom: 1px solid #c7c7c7; */
+    background: #e5e5e5;
+    color: black;
+}
+
+.roomtype {
+    height: 36px;
+    background: #e5e5e5;
+    border-bottom: 1px solid grey;
+}
+
+
+.nate {
+    margin: .5em auto;
+    text-align: center;
+    color: #FFF;
+}
+
+a:link {
+    color: BlueViolet;
+    text-decoration: none;
+}
+
+a:visited {
+    color: green;
+}
+
+a:hover {
+    color: DarkOrchid;
+    text-decoration: underline;
+}
+
+a:active {
+    color: yellow;
+}
+
+.twitter {
+    margin: 2em auto 0px auto;
+    font-family: Arial;
+    font-size: small;
+    font-weight: bold;
+    color: #f5911d;
+    text-align: center;
+    padding: 0;
+    left: 0px;
+    top: 0px;
+    overflow: visible;
+}
+/* SIGNATURE CODE */
+a {
+    color: #f77d06;
+    -o-transition: color .5s ease-out, background 7s ease-in;
+    -ms-transition: color .5s ease-out, background 7s ease-in;
+    -moz-transition: color .5s ease-out, background 7s ease-in;
+    -webkit-transition: color .5s ease-out, background 7s ease-in;
+    transition: color .5s ease-out, background 7s ease-in;
+    text-decoration: none;
+}
+
+    a:hover {
+        color: #FFF;
+        background: none;
+        text-decoration: none;
+    }
+
+.credits {
+    text-align: center;
+    font-family: 'Crushed';
+    font-size: 1.5vw;
+    color: #FFF;
+}
+
+.stars {
+    color: #f43a2f;
+    padding: 0 .5vw 0 .5vw;
+    font-size: 1.6vw;
+}
+
+.thumbnail {
+    position: relative;
+    z-index: 0;
+    border: none;
+}
+
+    .thumbnail:hover {
+        background-color: transparent;
+        z-index: 50;
+    }
+
+    .thumbnail span { /*CSS for enlarged image*/
+        position: absolute;
+        background-color: lightyellow;
+        padding: 5px;
+        left: -1000px;
+        border: none;
+        visibility: hidden;
+        color: black;
+        text-decoration: none;
+    }
+
+        .thumbnail span img { /*CSS for enlarged image*/
+            border-width: 0;
+            padding: 2px;
+        }
+
+    .thumbnail:hover span { /*CSS for enlarged image on hover*/
+        visibility: visible;
+        top: 0;
+        left: 60px; /*position where enlarged image should offset horizontally */
+    }
+
+    .thumbnail a > img, .thumbnail > img {
+        margin-right: 22px;
+        margin-left: 0px;
+        width: 200px;
+        height: 150px;
+    }
+
+.content {
+    padding: 0px 0px 0px 20px;
+    border-right: 1px solid silver;
+}
+
+.content1 {
+    padding: 15px;
+    border-right: 1px solid silver;
+    border-bottom: 1px solid silver;
+}
+
+.content2 {
+    padding: 15px;
+    border-right: 1px solid silver;
+    border-bottom: 1px solid silver;
+}
+
+.room-name {
+    color: #1f1f1f;
+    color: #1f1f1f;
+    font-size: 17px;
+    margin: 0;
+    font-weight: 600;
+}

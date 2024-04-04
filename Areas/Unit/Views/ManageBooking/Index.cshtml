@@ -1,0 +1,420 @@
+﻿@model Hotel.Areas.Unit.DTO.UnitHomeViewModel
+@using System.Data;
+
+
+
+<style>
+    .de {
+        margin: 4px 0px 4px 0px;
+    }
+
+    .buttonss input[type="radio"], input[type="checkbox"] {
+        cursor: pointer;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        WIDTH: 22PX;
+        HEIGHT: 15PX;
+    }
+
+    .selectedExtrabedinput {
+        width: 69px !important;
+    }
+
+    .buttonss .form-label {
+        background: #042c44;
+        padding: 10px;
+        color: white;
+        font-size: 18px;
+        font-weight: bold;
+        border-radius: 10px;
+    }
+</style>
+
+<input type="hidden" value="@Model.BookingId" id="BookingId" />
+<my-spinner>
+    <div ng-show="showSpinner" class="nexo-overlay ng-hide" style="width: 100%; height: 100%; background: rgba(255, 255, 255, 0.9); z-index: 5000; position: absolute; top: 0px; left: 0px; display: none;" id="showSpinner">
+        <i class="fa fa-refresh fa-spin nexo-refresh-icon" style="color: rgb(0, 0, 0); font-size: 50px; position: absolute; top: 50%; left: 50%; margin-top: -25px; margin-left: -25px; width: 44px; height: 50px;">
+        </i>
+    </div>
+</my-spinner>
+<div class="row">
+    <div class="col-sm-6">
+        <ul class="breadcrumb">
+            <li><a href="/Unit/Dashboard/Home" class="active"><i class="fa fa-list-alt"></i> Dashboard</a></li>
+            <li><a href="/Unit/Dashboard" class="active"><i class="fa fa-list-alt"></i> Quick Navigation</a></li>
+            <li><a href="#" style="cursor:text"> <span id="parapageheading">Manage Booking</span></a> </li>
+        </ul>
+
+    </div>
+</div>
+<div class="row" id="divMain">
+    <div class="col-md-12" id="divMain2">
+        <div class="grid simple no-border">
+
+            <div class="grid-title ">
+                <h3 class="hdd1">
+                    <strong>Booking-Details</strong>
+                </h3>
+
+            </div>
+            <div class="row">
+                <div class="table-responsive">
+
+                    <table class="table table-hover">
+                        <thead>
+                            <tr style="font-weight:bold">
+                                <td>Room Category</td>
+                                <td>No of Adults</td>
+                                <td>No of Rooms</td>
+                                <td>CheckIn date</td>
+                                <td>Checkout date</td>
+
+
+
+                                <td>Gross Amount</td>
+                                <td>Extra Bed Chrgs.</td>
+                                <td>GST Amount</td>
+                                <td>Net Total</td>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model != null && Model.Table1 != null && Model.Table1.Rows.Count > 0)
+                            {
+                                foreach (DataRow item in Model.Table1.Rows)
+                                {
+                                    <tr>
+                                        <td>@item["Category"]</td>
+                                        <td>@item["NoofAdults"]</td>
+                                        <td>@item["NoofRooms"]</td>
+                                        <td>@item["CheckInDate"]</td>
+                                        <td>@item["CheckOutDate"]</td>
+
+                                        <td>@item["GrossAmount"]</td>
+                                        <td>@item["ExtraBedamt"]</td>
+                                        <td>@item["TotalGST"]</td>
+                                        <td>@item["TotalPayable"]</td>
+
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                        <tfoot>
+                            @if (Model != null && Model.Table1 != null && Model.Table1.Rows.Count > 0)
+                            {
+                                <tr>
+
+                                    <td>Total:</td>
+                                    <td style="color:red" colspan="9">
+                                        <span style="color:red;text-align:left;">Gross Amount : <span style="text-align:right;color: #be2525;">₹@Model.Table1.Compute("sum(GrossAmount)", "")  </span>&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;&nbsp;
+                                        <span style="color:red;text-align:left;">GST Amount : <span style="text-align:right;color: #be2525;">₹@Model.Table1.Compute("sum(TotalGST)", "")</span>&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;&nbsp;
+                                        <span style="color:red;text-align:left">Payable Amount : <span style="text-align:right;color: #be2525;">₹@Model.Table1.Compute("sum(TotalPayable)", "")</span>&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;&nbsp;
+                                        <span style="color:red;text-align:left;">Paid Amount : <span style="text-align:right;color: #be2525;">₹@Model.Table1.Compute("sum(PaidAmount)", "")</span>&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;&nbsp;
+                                        <span style="color:red;text-align:left;">Due Amount : <span style="text-align:right;color: #be2525;">₹@Model.Table1.Compute("sum(DueAmount)", "")</span>&nbsp;&nbsp;&nbsp;</span>
+                                    </td>
+                                </tr>
+                            }
+                        </tfoot>
+                    </table>
+
+
+                </div>
+                <br>
+            </div>
+            <div class="row">
+
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="form-label" style="padding-bottom: 14px;font-size: 18px;">Select Action</label>
+                        <div style="font-weight: bold;font-size: 22px;" class="buttonss">
+
+                            <div class="form-label" onclick="manageForm(this,'ReceivePayment')">
+                                Receive Payment
+                            </div>
+                            <div class="form-label" onclick="manageForm(this,'Checkout')">
+                                Checkout
+                            </div>
+                            <div class="form-label" onclick="manageForm(this,'AddRoom')">
+                                Add Room
+                            </div>
+                            <div class="form-label" onclick="manageForm(this,'ReleaseRoom')">
+                                Release Room
+                            </div>
+                            <div class="form-label" onclick="manageForm(this,'RoomExchange')">
+                                Room Exchange
+                            </div>
+                            <div class="form-label" onclick="manageForm(this,'RoomUpgrade')">
+                                Room Upgrade
+                            </div>
+                            <div class="form-label" onclick="manageForm(this,'OccupancyUpgrade')">
+                                Occupancy Upgrade
+                            </div>
+                            <div class="form-label" onclick="manageForm(this,'ExtendCheckout')">
+                                Extend Checkout
+                            </div>
+                            <div class="form-label" onclick="manageForm(this,'BarOrder')">
+                                Bar Order
+                            </div>
+                            <div class="form-label" onclick="manageForm(this,'FoodOrder')">
+                                Food Order
+                            </div>
+                            <div class="form-label" onclick="manageForm(this,'ExtendCheckout')">
+                                Extend Checkout
+                            </div>
+                            <div class="form-label" onclick="manageForm(this,'ExtendCheckout')">
+                                Extend Checkout
+                            </div>
+
+
+
+
+                            <div class="form-label" onclick="manageForm(this,'RemoveDiscount')">
+                                Remove Discount
+                            </div>
+                            <div class="form-label" onclick="manageForm(this,'adddiscount')">
+                                Add Discount
+                            </div>
+                            <div class="form-label" onclick="manageForm(this,'AddExtrabed')">
+                                Add Extrabed
+                            </div>
+                            <div class="form-label" onclick="manageForm(this,'RemoveExtrabed')">
+                                Remove Extrabed
+                            </div>
+                            <div class="form-label" onclick="manageForm(this,'RemoveGST')">
+                                Remove GST
+                            </div>
+                            <div class="form-label" onclick="manageForm(this,'AddGST')">
+                                Add GST
+                            </div>
+                            <div class="form-label" onclick="manageForm(this,'ChangeCheckoutDate')">
+                                Change Checkout Date
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row comm ReceivePaymentAndCheckout" style="display:none">
+
+                <div class="col-md-12">
+
+                    <div class="col-md-2 form-group">
+                        <label class="form-label">Total Amount</label>
+                        <input type="text" class="form-control" id="txtDiscount" readonly />
+                    </div>
+                    <div class="col-md-2 form-group">
+                        <label class="form-label">Paid Amount</label>
+                        <input type="text" class="form-control" id="txtDiscount" readonly />
+                    </div>
+                    <div class="col-md-2 form-group">
+                        <label class="form-label">Amt Due</label>
+                        <input type="text" class="form-control" id="txtDiscount" readonly />
+                    </div>
+                    <div class="col-md-2 form-group">
+                        <label class="form-label">Amt Being Received</label>
+                        <input type="text" class="form-control" placeholder="Discount %." id="txtDiscount" />
+                    </div>
+
+
+
+
+                </div>
+
+
+            </div>
+            <div class="row comm adddiscount" style="display:none">
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="form-label">Discount (%)</label>
+                        <input type="text" class="form-control" placeholder="Discount %." id="txtDiscount" />
+                    </div>
+                </div>
+            </div>
+            <div class="row comm AddExtrabed" style="display:none">
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="form-label">Room No</label>
+                        <input type="text" class="form-control" placeholder="Room No." id="txtRoomNo" />
+                    </div>
+                </div>
+            </div>
+            <div class="row comm ChangeCheckoutDate" style="display:none">
+                <div class="col-md-12">
+                    <div class="form-group table table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Room Category</th>
+                                    <th>Room No</th>
+                                    <th>Adults</th>
+
+                                    <th>Room Charges/Day</th>
+                                    <th>Double Occupancy/Per</th>
+                                    <th>Extra Bed/Per</th>
+
+                                    <th>Check In</th>
+                                    <th>Check Out</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbodyChangeCheckoutDate">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group col-md-12">
+                    <input type="submit" id="btnManageAction" value="submit" class="btn btn-info btn-cons tc" onclick="ManageAction()" />
+                </div>
+            </div>
+
+
+            @*
+            <div class="grid-title ">
+            <h3 class="hdd1">
+            <strong>Guests yet to check-in today</strong>
+            </h3>
+
+            </div> *@
+            <div class="row">
+                <div class="table-responsive">
+                </div>
+                <br>
+            </div>
+
+            <div class="row grid simple vertical" id="CheckInMainDiv">
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<script>
+    function manageForm(_this, mode) {
+        debugger;
+        $('.comm').hide();
+        $('#btnManageAction').attr('mode', mode);
+
+        $('.buttonss .form-label').css('background', '#597d8f');
+        $(_this).css('background', '#4caf50');
+
+
+        if (mode == 'ReceivePayment') {
+            $('.ReceivePaymentAndCheckout').show();
+            $('#btnManageAction').val("Receive Payment");
+        }
+        if (mode == 'Checkout') {
+            $('.ReceivePaymentAndCheckout').show();
+            $('#btnManageAction').val("Receive Payment & Checkout");
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+        // if (mode == 1) {
+        //     $('#btnManageAction').val("Remove Discount");
+        // }
+        // if (mode == 2) {
+
+        //     $('.adddiscount').show();
+
+        //     $('#btnManageAction').val("Add Discount");
+        // }
+        // if (mode == 3) {
+
+        //     $('.AddExtrabed').show();
+        //     $('#btnManageAction').val("Add Extrabed");
+        // }
+        // if (mode == 4) {
+        //     $('.AddExtrabed').show();
+        //     $('#btnManageAction').val("Remove Extrabed");
+        // }
+        // if (mode == 5) {
+        //     $('#btnManageAction').val("Remove GST");
+        // }
+        // if (mode == 6) {
+        //     $('#btnManageAction').val("Add GST");
+        // }
+        // if (mode == 7) {
+        //     $('.ChangeCheckoutDate').show();
+        //     $('#btnManageAction').val("Change Checkout Date");
+
+        //     var BookingId = $('#txtBookingId').val();
+
+
+        //     if (BookingId.trim() == '') {
+        //         alert('Please Enter Dockete No.');
+        //         return;
+        //     }
+
+
+        //     $("#showSpinner").show();
+        //     $.post('/ManageBooking/GetCheckinData', { DocketeNo: BookingId }, function (data) {
+        //         $('#tbodyChangeCheckoutDate').html('');
+        //         $("#showSpinner").hide();
+        //         data = eval(data);
+
+        //         var html = "";
+
+        //         $.each(data, function (i, v) {
+
+        //             html += "<tr> <td>" + v.Category + "</td>";
+        //             html += "<td class='RoomNo'>" + v.RoomNo + "</td> ";
+        //             html += "<td>" + v.NoofAdults + "</td>";
+
+        //             html += "<td>" + v.RoomChargesPerDay + "</td>";
+        //             html += "<td>" + v.DoubleOccupancyPer + "</td>";
+        //             html += "<td>" + v.ExtraBedPricePer + "</td>";
+
+
+        //             html += "<td><input type='date' class='CheckInDate' value='" + v.CheckInDate + "' disabled ></td>";
+        //             html += "<td><input type='date' class='CheckOutDate' value='" + v.CheckOutDate + "' ></td> </tr>";
+        //         })
+
+        //         $('#tbodyChangeCheckoutDate').html(html);
+
+
+        //     })
+
+
+
+        // }
+
+    }
+
+
+    function GetManageBookingData(mode) { 
+    
+        var Request = {
+            BookingId: $('#BookingId').val(),
+            Action: mode
+        }
+
+        $("#showSpinner").show();
+        $.post('/Unit/ManageBooking/GetManageBookingData', Request, function (data) {
+            $("#showSpinner").hide();
+            if (data) {
+                data = eval(data);
+            }
+            return data;
+        })
+    }
+
+
+
+
+</script>

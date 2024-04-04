@@ -1,0 +1,497 @@
+﻿@model Hotel.Areas.Admin.DTO.BookingRoomDetails_Cls
+@using System.Data
+<div class="row">
+	<div class="col-sm-6">
+		<ul class="breadcrumb">
+			<li><a href="/Admin/Dashboard" class="active"><i class="fa fa-list-alt"></i> Quick Navigation</a></li>
+			<li><span id="parapageheading">Masters - Room Master</span> </li>
+		</ul>
+	</div>
+
+	@*  <div class="col-sm-3">
+	<div class="download_btn">
+	<a class="mew" href="../img/UPSTDC-LOGO.pdf">Download UPSTDC Logo</a>
+	</div>
+	</div> *@
+</div>
+
+
+<script>
+	$(document).ready(function () {
+		BindCity();
+	});
+
+	function GetImg() {
+		$('#divImg').show();
+	}
+
+</script>
+
+<script>
+	$(document).ready(function () {
+
+		$('#btnSubmit').click(function () {
+
+			if ($("#ddlCity").val() == "") {
+				alert('Please select City');
+				$("#ddlCity").focus()
+				return false;
+			}
+
+			if ($("#ddlCategory").val() == "") {
+				alert('Please select Room Category');
+				$("#ddlCategory").focus()
+				return false;
+			}
+
+			if ($("#ddlHotel").val() == "") {
+				alert('Please select Hotel Name');
+				$("#ddlHotel").focus()
+				return false;
+			}
+
+
+			if ($("#RoomNo").val() == "") {
+				alert('Please enter No of Rooms');
+				$("#RoomNo").focus()
+				return false;
+			}
+
+			$('#DynamitextboxRooms input').each(function () {
+
+				if ($(this).val() == '') {
+					alert("Enter Room No");
+					$(this).focus()
+					return false;
+				}
+
+			});
+
+
+			var RoomsNo = [];
+			$('#DynamitextboxRooms input').each(function () {
+				RoomsNo.push($(this).val());
+			});
+
+			var dataObject = {
+				CategoryId: parseInt($("#ddlCategory").val()),
+				HotelId: $("#ddlHotel").val(),
+				City: parseInt($("#ddlCity").val()),
+				RoomNo: RoomsNo
+			};
+
+			$.post('/Admin/Master/InsertRoomMasterjson', dataObject, function (r) {
+				if (r == "1") {
+					alert("Data Saved Succesfully !!!");
+					location.reload();
+				}
+				else {
+					alert("Server is not Responding please try Later...");
+					return;
+				}
+			});
+
+
+
+		});
+
+
+		BindRooms();
+
+	});
+
+
+	function BindRooms() {
+		var Roomsdata = '';
+		if (Roomsdata != '') {
+			Roomsdata = eval(Roomsdata);
+		}
+		var html = "";
+		for (var i = 0; i < Roomsdata.length; i++) {
+			html += '<div class="col-md-2"> <div class="form-group"> <input type="text" value="' + Roomsdata[i].RoomNo + '"  onchange="checkRoomNo(this)" class="form-control" placeholder="Enter Room No.*"/> </div> </div>';
+		}
+		$('#DynamitextboxRooms').html(html);
+	}
+
+</script>
+<script>
+	function readURL(input) {
+		if (input.files && input.files[0]) {
+			var reader = new FileReader();
+			reader.onload = function (e) {
+				$('#Preview').show();
+				$('#Preview').attr('src', e.target.result);
+			}
+
+			reader.readAsDataURL(input.files[0]);
+		}
+	}
+
+</script>
+
+
+
+<script>
+	$('#parapageheading').text('Masters - Room Master');
+</script>
+
+<style>
+	.txthght {
+		min-height: 25px !important;
+	}
+
+	.tdsize {
+		font-size: 15px;
+		padding: 7px;
+		font-weight: bold;
+	}
+</style>
+
+<div class="page-title">
+	<div class="row">
+		<div class="col-md-8">
+		</div>
+		<div class="col-md-4">
+		</div>
+	</div>
+</div>
+
+@* /admin/master/InsertRoomMaster *@
+<form action="InsertRoomMaster" enctype="multipart/form-data" method="post" novalidate="novalidate">
+	<div class="row" id="DivNew" style="display: none">
+		<div class="col-md-12">
+			<div class="grid simple form-grid">
+				<div class="grid-title no-border">
+					<h3 class="hdd1">Add  Room </h3>
+				</div>
+				<div class="grid-body no-border">
+					<div class="row">
+						<div class="col-md-3">
+							<div class="form-group">
+								<label class="form-label">City</label>
+								<div class="input-with-icon right">
+									<i class=""></i>
+									<select class="form-control" id="ddlCity" name="City" onchange="BindHotel('ddlCity')">
+										<option value="">Select City</option>
+									</select>
+
+								</div>
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="form-group">
+								<label class="form-label">Hotel Name</label>
+								<div class="input-with-icon right">
+									<i class=""></i>
+									<select class="form-control" id="ddlHotel" name="HotelId" onchange="BindRoomCategory('ddlHotel')">
+										<option value="">Select Hotel</option>
+									</select>
+
+								</div>
+							</div>
+						</div>
+
+						<div class="col-md-3">
+							<div class="form-group">
+								<label class="form-label">Room Category</label>
+								<select id="ddlCategory" name="CategoryId">
+									<option value="-1">Select Category</option>
+								</select>
+
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-md-3">
+							<div class="form-group">
+								<label class="form-label">No of Rooms</label>
+								<div class="input-with-icon right">
+									<i class=""></i>
+									<input placeholder="Room Number" id="RoomNo" name="RoomNo" onchange="GenerateRoomtxt(this)" type="text" value="">
+									<input type="hidden" name="RoomsNo" id="RoomsNo">
+								</div>
+							</div>
+						</div>
+
+					</div>
+
+
+
+					<div class="row" id="DynamitextboxRooms">
+					</div>
+					<script>
+
+						function GenerateRoomtxt(_this) {
+							var count = parseInt($(_this).val() == '' ? 0 : $(_this).val());
+
+							var html = "";
+
+
+							var CurrentRow = $('#DynamitextboxRooms .col-md-2').length;
+
+							if (CurrentRow == 0) {
+								for (var i = 0; i < count; i++) {
+
+									html += '<div class="col-md-2"> <div class="form-group"> <input type="text"  onchange="checkRoomNo(this)" class="form-control" placeholder="Enter Room No.*"/> </div> </div>';
+								}
+								$('#DynamitextboxRooms').html(html);
+								//  manageCount();
+								return;
+							}
+							else if (CurrentRow < count) {
+								var c = count - CurrentRow;
+								for (var i = 0; i < c; i++) {
+
+									html += '<div class="col-md-2"> <div class="form-group"> <input type="text"  onchange="checkRoomNo(this)" class="form-control" placeholder="Enter Room No.*"/> </div> </div>';
+								}
+								$('#DynamitextboxRooms').append(html);
+								//   manageCount();
+								return;
+
+							}
+							else if (CurrentRow > count) {
+								var c = CurrentRow - count;
+
+								for (var i = 0; i < c; i++) {
+									$($('#DynamitextboxRooms .col-md-2')[$('#DynamitextboxRooms .col-md-2').length - 1]).remove();
+								}
+								return;
+							}
+
+							for (var i = 0; i < count; i++) {
+
+								html += '<div class="col-md-2"> <div class="form-group"> <input type="text"  onchange="checkRoomNo(this)"  class="form-control" placeholder="Enter Room No.*"/> </div> </div>';
+							}
+							$('#DynamitextboxRooms').html(html);
+
+
+						}
+
+						function checkRoomNo(_this) {
+							var CuRoom = $(_this).val();
+							var count = 0;
+							$('#DynamitextboxRooms input').each(function () {
+								if ($(this).val() == CuRoom) {
+									count++;
+								}
+							});
+							if (count > 1) {
+								alert('Room number not allowed duplicate');
+								$(_this).val('');
+							}
+						}
+					</script>
+
+					<div class="row">
+						<div class="col-md-4"> </div>
+						<div class="col-md-4">
+							<div class="form-group">
+								<div class="text-center">
+									<button class="btn btn-success btn-cons" type="button" id="btnSubmit"><i class="fa fa-check"></i>Save</button>
+									<a href="/RoomMaster/ClearModel" class="btn btn-danger btn-cons" id="lnkCancel"><i class="fa fa-times"></i>Cancel</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>
+
+<div class="row" id="DivView" style="display: none;">
+	<div class="col-md-12">
+		<div class="grid simple form-grid">
+			<div class="grid-title no-border">
+
+				<div class="row">
+					<div class="col-md-4">
+					</div>
+					<div class="col-md-4">
+						<h3 class="hdd1"><strong>Room  Details </strong> </h3>
+					</div>
+					<div class="col-md-4">
+						<div class="text-right">
+							<button class="btn btn-small btn-primary btn-demo-space" type="submit" id="btnNew">Add New</button>
+							<button class="btn btn-small btn-white btn-demo-space" type="button" id="btnView">View All</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="grid-body no-border">
+				<script>
+					$(document).ready(function () {
+						$("#lnkEdit").click(function () {
+							$("#DivNew").show();
+							$("#DivView").hide();
+						});
+					});
+				</script>
+
+				<script>
+					$(document).ready(function () {
+						$(".DataTableS").DataTable({
+							dom: 'Bfrtip',
+							pageLength: 10,
+							lengthMenu: [[10, 15, 20, 50, 100, 500, -1], [10, 15, 20, 50, 100, 500, "All"]],
+							buttons: [
+								'pageLength',
+								{
+									extend: 'excelHtml5', footer: true,
+								},
+								{ extend: 'csvHtml5', footer: true },
+								{
+									extend: 'pdfHtml5', footer: true, orientation: 'landscape',
+
+									pageSize: 'LEGAL',
+									text: '<i class="fa fa-file-pdf-o"> PDF</i>',
+									titleAttr: 'PDF'
+								}
+							]
+						});
+					});
+				</script>
+				<div class="grid-body no-border">
+					<table class="table table-bordered DataTableS  dataTable no-footer" id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info">
+						<thead>
+							<tr>
+								<th>Sr No.</th>
+								<th>City Name</th>
+								<th>Hotel Name</th>
+								<th>Hotel Category</th>
+								<th>No Of Rooms</th>
+
+							</tr>
+						</thead>
+						<tbody>
+							@{
+								int srno = 1;
+								if (Model.dt != null && Model.dt.Rows.Count > 0)
+								{
+									foreach (DataRow dr in Model.dt.Rows)
+									{
+										<tr role="row" class="even" style="text-align:center;">
+											<td class="sorting_1">@srno</td>
+											<td>@dr["CityName"]</td>
+											<td>@dr["HotelName"]</td>
+											<td>@dr["Category"]</td>
+											<td><a href="/Admin/Master/EditRoomMaster?RID=@dr["HotelId"]&&CID=@dr["Id"]" class="btn btn-primary btn-small" id="lnkEdit">@dr["NoOfRooms"]</a></td>
+										</tr>
+										srno++;
+									}
+
+								}
+							}
+						</tbody>
+
+					</table>
+				</div>
+
+
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="row" id="DivViewImege" style="display:none">
+	<div class="col-md-12">
+		<div class="grid simple form-grid">
+			<div class="grid-title no-border">
+				<h4>Room <span class="semi-bold">Images</span></h4>
+
+			</div>
+			<div class="grid-body no-border">
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	var val = '0';
+	if (val != "0") {
+		document.getElementById("DivNew").style.display = "block";
+		document.getElementById("DivView").style.display = "none";
+	}
+	else {
+		document.getElementById("DivNew").style.display = "none";
+		document.getElementById("DivView").style.display = "block";
+	}
+
+	$('#btnRommView').click(function () {
+		$('#DivView').hide();
+		$('#DivNew').hide();
+		$('#DivEdit').hide();
+		$('#DivViewImege').show();
+	});
+
+	$('#btnNew').click(function () {
+		$('#DivView').hide();
+		$('#DivNew').show();
+		$('#DivViewImege').hide();
+		//BindState();
+
+	});
+
+	$('#btnView').click(function () {
+		//$('#DivView').show();
+		//$('#DivNew').hide();
+		//$('#DivEdit').hide();
+		//$('#DivViewImege').hide();
+		window.location = '/RoomMaster/InsertRoomMaster';
+
+	});
+
+
+	function BindCity() {
+		$.post('/admin/master/BindCityWithoutId', {}, function (result) {
+			$("#ddlCity").empty();
+			$.each(result, function (i, data) {
+				$("#ddlCity").append("<option value='" + data.value + "'> " + data.text + "</option>")
+			});
+
+			BindHotel();
+		});
+	}
+
+
+	function BindHotel() {
+		$.post('/admin/master/BindHotelMaster', { id: $("#ddlCity").val() }, function (result) {
+			$("#ddlHotel").empty();
+			$.each(result, function (i, data) {
+				$("#ddlHotel").append("<option value='" + data.value + "'> " + data.text + "</option>");
+			});
+
+			if ('@Model.HotelId' !== '' && '@Model.HotelId' !== undefined && '@Model.HotelId' !== '0') {
+				$("#ddlHotel").val('@Model.HotelId');
+				BindRoomCategory();
+			}
+		});
+	}
+
+	function BindRoomCategory() {
+		$.post('/admin/master/BindCategoryMaster', { id: $("#ddlHotel").val() }, function (result) {
+			$("#ddlCategory").empty();
+			$.each(result, function (i, data) {
+				$("#ddlCategory").append("<option value='" + data.value + "'> " + data.text + "</option>");
+			});
+
+			if ('@Model.CategoryId' !== '' && '@Model.CategoryId' !== undefined && '@Model.CategoryId' !== '0') {
+				$("#ddlCategory").val('@Model.CategoryId');
+			}
+		});
+	}
+
+</script>
+
+
+@section Scripts {
+	<script src="https://cdn.ckeditor.com/ckeditor5/33.0.0/classic/ckeditor.js"></script>
+	<script>
+		ClassicEditor
+			.create(document.querySelector('#FullDescription'))
+			.catch(error => {
+				console.error(error);
+			});
+	</script>
+}

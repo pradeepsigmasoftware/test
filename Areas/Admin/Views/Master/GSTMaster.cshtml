@@ -1,0 +1,197 @@
+﻿@model Hotel.Areas.Admin.DTO.GstMaster_Cls
+@using System.Data
+<div class="row">
+
+
+    <div class="col-sm-6">
+
+        <ul class="breadcrumb">
+
+            <li><a href="/Admin/Dashboard" class="active"><i class="fa fa-list-alt"></i> Quick Navigation</a></li>
+            <li><span id="parapageheading">GST Master</span> </li>
+        </ul>
+
+    </div>
+@* 
+
+    <div class="col-sm-3">
+        <div class="download_btn">
+            <a class="mew" href="../img/UPSTDC-LOGO.pdf">Download UPSTDC Logo</a>
+        </div>
+    </div> *@
+</div>
+
+
+<script type="text/javascript">
+    function onlyDotsAndNumbers(event) {
+        debugger
+        var charCode = (event.which) ? event.which : event.keyCode
+        if (charCode >= 37 && charCode <= 40) {
+            return false;
+        }
+
+        if (charCode == 127) {
+            return true;
+        }
+
+        if (charCode == 46) {
+            return true;
+        }
+        /*if (charCode == 45) {
+        return true;
+        }*/
+        if (charCode > 31 && (charCode < 48 || charCode > 57))
+            return false;
+
+        return true;
+    }
+</script>
+
+
+<script>
+    $('#parapageheading').text('GST Master');
+</script>
+
+
+<form action="/Admin/Master/GSTMaster" method="post" novalidate="novalidate">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="grid simple form-grid">
+                <div class="grid-title no-border">
+                    <h3 class="hdd1"><strong> GST Master </strong> </h3>
+                </div>
+                <div class="grid-body no-border">
+                    
+                    <div class="form-group">
+                        <label class="form-label">Start Amount</label>
+                        <input type="text" name="StartAmt" id="StartAmt"  class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">End Amount</label>
+                        <input type="text" name="EndAmt" id="EndAmt" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">GST(%)</label>
+                        <input type="text" name="GSTPer" id="GSTPer" class="form-control">
+                    </div>
+                    <div class="form-actions1">
+                        <div class="text-center">
+                            @Html.HiddenFor(a=>a.GSTID)
+                            <button class="btn btn-success btn-cons" type="submit" onclick="return Validation()"><i class="icon-ok"></i>Save</button>
+                            <a href="/Masters/ClearGSTModel" class="btn btn-danger btn-cons" id="lnkCancel"><i class="fa fa-times"></i>Cancel</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="grid simple form-grid">
+                <div class="grid-title no-border">
+                    <h3 class="hdd1"><strong> GST  Details </strong> </h3>
+
+                </div>
+                <div class="grid-body">
+
+                    <script>
+                        $(document).ready(function () {
+                            $(".DataTableS").DataTable({
+                                dom: 'Bfrtip',
+                                pageLength: 10,
+                                lengthMenu: [[10, 15, 20, 50, 100, 500, -1], [10, 15, 20, 50, 100, 500, "All"]],
+                                buttons: [
+                                    'pageLength',
+                                    {
+                                        extend: 'excelHtml5', footer: true,
+                                    },
+                                    { extend: 'csvHtml5', footer: true },
+                                    {
+                                        extend: 'pdfHtml5', footer: true, orientation: 'landscape',
+
+                                        pageSize: 'LEGAL',
+                                        text: '<i class="fa fa-file-pdf-o"> PDF</i>',
+                                        titleAttr: 'PDF'
+                                    }
+                                ]
+                            });
+                        });
+
+                    </script>
+                    <div class="">
+                        <table class="table table-bordered  DataTableS">
+                            <thead>
+                                <tr role="row">
+                                    <th  aria-sort="ascending" aria-label="SrNo: activate to sort column descending">SrNo</th>
+                                    <th  aria-label="Start Amount: activate to sort column ascending">Start Amount</th>
+                                    <th  aria-label="End Amount: activate to sort column ascending">End Amount</th>
+                                    <th  aria-label="GST Per: activate to sort column ascending">GST (%)</th>
+                                    <th  aria-label="Edit: activate to sort column ascending">Edit</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    int srno = 1;
+                                    if (Model.dt == null)
+                                    {
+                                                <tr class="odd"><td valign="top" colspan="6" class="dataTables_empty">No data available in table</td></tr>
+                                    }
+                                    else if (Model.dt != null && Model.dt.Rows.Count > 0)
+                                    {
+                                        foreach (DataRow dr in Model.dt.Rows)
+                                        {
+                                                    <tr class="odd">
+                                                        <td>@srno</td>
+                                                        <td>@dr["StartAmt"]</td>
+                                                        <td>@dr["EndAmt"]</td>
+                                                        <td>@dr["GSTPer"]</td>
+                                                        <td>
+                                                            <a href="/Admin/Master/GSTMaster?ID=@dr["GSTID"]" class="btn btn-primary btn-small" id="lnkEdit"><i class="fa fa-pencil"></i></a>
+
+                                                        </td>
+
+                                                    </tr>
+                                            srno++;
+                                        }
+                                    }
+                                }
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<script>
+    $(document).ready(function () {
+        $('#StartAmt').val('@Model.StartAmt');
+        $('#EndAmt').val('@Model.EndAmt');
+        $('#GSTPer').val('@Model.GSTPer');
+    });
+
+    function Validation(){
+        var StartAmt = $('#StartAmt').val();
+        var EndAmt = $('#EndAmt').val();
+        var GSTPer = $('#GSTPer').val();
+
+        if (StartAmt == '') {
+            alert("Please Enter Start Amount");
+            $('#StartAmt').focus();
+            return false
+            }
+        if (EndAmt == '') {
+            alert("Please Enter End Amount");
+            $('#EndAmt').focus();
+            return false
+            }
+        if (GSTPer =='') {
+            alert("Please Enter GST(%)");
+            $('#GSTPer').focus();
+            return false
+        }
+    }
+
+
+
+</script>

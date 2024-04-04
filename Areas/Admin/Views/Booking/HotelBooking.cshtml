@@ -1,0 +1,165 @@
+﻿
+<link href="~/theme/css/t-datepicker.min.css" rel="stylesheet" />
+<link href="~/theme/css/themes/t-datepicker-blue.css" rel="stylesheet" />
+<link href="~/theme/css/themes/t-datepicker-bluegrey.css" rel="stylesheet" />
+<link href="~/theme/css/themes/t-datepicker-cyan.css" rel="stylesheet" />
+<link href="~/theme/css/themes/t-datepicker-green.css" rel="stylesheet" />
+<link href="~/theme/css/themes/t-datepicker-lime.css" rel="stylesheet" />
+<link href="~/theme/css/themes/t-datepicker-main.css" rel="stylesheet" />
+<link href="~/theme/css/themes/t-datepicker-orange.css" rel="stylesheet" />
+<link href="~/theme/css/themes/t-datepicker-purple.css" rel="stylesheet" />
+<link href="~/theme/css/themes/t-datepicker-teal.css" rel="stylesheet" />
+<link href="~/theme/css/themes/t-datepicker-yellow.css" rel="stylesheet" />
+<script src="~/theme/js/t-datepicker.js"></script>
+
+
+<script src="~/commonjs/hotelbooking.js"></script>
+
+<div class="row">
+    <div class="col-sm-6">
+        <ul class="breadcrumb">
+            <li><a href="/Home/Index" class="active"><i class="fa fa-list-alt"></i> Dashboard</a></li>
+            <li><a href="/AdminReport/QuickNavigationOfAll" class="active"><i class="fa fa-list-alt"></i> Quick Navigation</a></li>
+            <li><a href="#" style="cursor:text"> <span id="parapageheading">Booking - Details</span></a> </li>
+        </ul>
+
+    </div>
+
+</div>
+
+
+
+
+<div class="row" id="divMain">
+    <div class="col-md-12" id="divMain2">
+        <div class="grid simple form-grid">
+
+            <div class="grid-title no-border text-center">
+                <h3 class="hdd1">  <strong>Booking - Details</strong></h3>
+
+            </div>
+
+
+            <div class="grid-body no-border">
+                <div>
+                    <input type="hidden" id="hdTotalNights" value="1">
+                    <table class="table table-bordered" id="tbl1">
+                        <thead>
+                            <tr>
+                                <th>Check-in/Check-Out</th>
+                                <th>Room Category</th>
+                                <th>No.of rooms</th>
+                                <th>Persons</th>
+
+                            </tr>
+
+                        </thead>
+                        <tbody>
+                            <tr datanoofbed="2" databedname="Double bed" dataextrabedamount="0" dataextrabedper="0.1500" dataprice="2500.00" datatext="AC Deluxe" dataval="23" indexnew="0">
+                                <td>
+                                    <div class="t-datepicker" noofbed="2" NoofRooms="4" style="font-size:14px;" categoryid="2" Serialnb="1" id="t-datepicker-1">
+                                        <div class="t-check-in"></div>
+                                        <div class="t-check-out"></div>
+                                    </div>
+                                    <input style="display:none" id="checkbox-" type="checkbox" datanoofbed="2" databedname="Double bed" dataextrabedamount="0" dataprice="2500.00" datatext="AC Deluxe" dataval="23" dataextrabedper="0.1500" indexnew="0" />
+
+                                </td>
+                                <td>
+                                    <strong style="font-size: 15px;">AC Deluxe </strong>
+                                    (<strong>Single Occupancy Charge : </strong><i class="fa fa-rupee"></i>&nbsp;
+                                    <span id="spn1-0">2500</span> |
+                                    <strong>Double Occupancy Charge : </strong><i class="fa fa-rupee"></i>&nbsp;
+                                    <span id="spn2-0">
+                                        2700)
+                                    </span>
+                                    <span style="display:none" adtr="0" class="clsExtraBedStatus-0"></span>
+                                    <br>
+                                    <span class="">Room Charges: </span>&nbsp;<span class="am1 txtCatSubpriceWithoutExtra-0"></span>
+                                    <span class="">Extra Charges: </span>&nbsp;<span class="am1 clsExtraBedAmountnew-0"></span>
+                                    <span class="">Total: </span>&nbsp;<span class="am1 spanTotalCatewiseAmt-0"></span>
+                                </td>
+
+                                <td>
+                                    <select id="ddlRoom-0" datapricedef="200.00" class="form-control" onchange="Cal12New(this,'0','','rooms','2','0')">
+                                        <option value="0">0</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                    </select>
+
+                                </td>
+                                <td>
+                                    <select id="ddlPerson-0" class="form-control" onchange="Cal12New(this,'0','','person','2','0')">
+                                        <option value="0">0</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                    </select>
+                                </td>
+
+
+                            </tr>
+
+                        </tbody>
+                    </table>
+
+                    <div id="divTotalPayment" style="" class="col-md-12">
+                        <div class="col-md-6">
+                        </div>
+                        <div class="rate col-md-6">
+                            <div class="charges3">
+                                <div class="horz-separator" id="divRoomWiseDyn">
+                                    <span>3 Persons</span> 
+                                    <span>1 AC Deluxe &nbsp;
+                                        <a href="#" onclick="DeleteBooking12(this)" datanoofroom="0" datanoofbed="2" catindex="0" datahotelid="">
+                                            <i class="fa fa-close" style="color: white;   background: red;padding: 3px 5px;border-radius: 25px;font-weight: 700;"></i>
+                                        </a>
+                                    </span>
+                                    <span class="pull-right text-right">&nbsp;3105</span>
+                                    <br>
+                                    <span style="font-size:12px;color:#c3000b;">Includes extra bed charge &nbsp;<i class="fa fa-rupee"></i>&nbsp;405</span>
+                                                                        
+                                </div>
+                            </div>
+
+
+
+
+                            <div class="charges2 TaxCal" style="text-align:right">
+                                <span class="ch1 text-left" style="font-weight:bold">GST: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>
+                                <span class="ch2 text-right">980</span>
+                            </div>
+                            <div class="charges6" style="text-align:right">
+                                <span class="ch1 text-left" style="font-weight:bold">You Pay: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                <span class="ch2 text-right" id="lblPayable">9145</span>
+                            </div>
+                            <div class="charges6" style="text-align:right">
+                                <span class="ch1 text-left" style="font-weight:bold">Discount (%): &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                <input type="text" class="col-md-3" id="txtModalDiscount" onchange="DiscountAmtOnchange()" onkeypress="return allowOnlyDigit(event, this)" value="0">
+                            </div>
+                            <div class="charges6" style="text-align:right">
+                                <span class="ch1 text-left" style="font-weight:bold"> Discount Reason: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                <input type="text" class="col-md-4" style="margin-top:2px" id="txtModalDiscountReason">
+                            </div>
+                            <br>
+
+
+                            <div class="charges6">
+
+                                <button type="button" class="btn btn-default" style="width:100px" onclick="makePay()">
+                                    Book Now ➜
+                                </button>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+

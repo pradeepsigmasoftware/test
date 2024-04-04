@@ -1,0 +1,157 @@
+﻿@model Hotel.Areas.Admin.DTO.CategoryMaster_Cls
+@using System.Data
+<div class="row">
+
+    <div class="col-sm-6">
+
+        <ul class="breadcrumb">
+
+            <li><a href="/admin/" class="active"><i class="fa fa-list-alt"></i> Quick Navigation</a></li>
+            <li><span id="parapageheading"> Master - Category Master</span> </li>
+        </ul>
+
+    </div>
+    <div class="col-sm-3">
+        <div class="download_btn">
+            <a class="mew" href="../img/UPSTDC-LOGO.pdf">Download UPSTDC Logo</a>
+        </div>
+    </div>
+</div>
+
+<form method="post">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="grid simple form-grid">
+                <div class="grid-title no-border">
+                    <h3 class="hdd1"> <strong>Category Master </strong> </h3>
+                </div>
+                <div class="grid-body no-border">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="form-label">City</label>
+                            <select class="form-control" data-val="true" data-val-required="*This Field is Required." id="ddlCity" name="City">
+                                <option value="-1">Select City</option>
+                                <option value="1">Agra</option>
+                                <option value="2">Ayodhya</option>
+                                <option value="3">Balrampur</option>
+                                <option value="4">Bareilly</option>
+                                <option value="5">Chitrakoot</option>
+                                <option value="6">Fatehpur Sikri, Agra</option>
+                                <option value="7">Haridwar</option>
+                                <option value="8">Jhansi</option>
+                                <option value="9">Kannauj</option>
+                                <option value="10">Kushinagar</option>
+                                <option value="11">Lucknow</option>
+                                <option value="12">Mirzapur</option>
+                                <option value="13">Moradabad</option>
+                                <option value="14">Nawabganj</option>
+                                <option value="15">Prayagraj</option>
+                                <option value="16">Raebareli</option>
+                                <option value="17">Sarnath, Varanasi</option>
+                                <option value="18">Shahjahanpur</option>
+                                <option value="19">Shravasti</option>
+                                <option value="20">Varanasi</option>
+                                <option value="21">Budaun</option>
+                                <option value="29">Sumer Singh Qila , Etawah</option>
+                                <option value="30">Sankisa, Farrukhabad</option>
+                                <option value="31">Ghazipur</option>
+                                <option value="32">DohriGhat , Mau</option>
+                                <option value="36">Bithoor , Kanpur </option>
+                                <option value="37">Sonauli</option>
+                                <option value="39">Garhmukteshwar</option>
+                                <option value="40">Vindhyachal</option>
+                                <option value="41">Neemsar</option>
+                                <option value="42">Gorakhpur</option>
+                                <option value="43">Kanpur</option>
+                                <option value="44">Bahraich</option>
+                                <option value="45">Balrampur</option>
+                                <option value="46">Ballia</option>
+                                <option value="47">Basti</option>
+                            </select>
+
+                            <span class="field-validation-valid error" data-valmsg-for="City" data-valmsg-replace="true"></span>
+
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+
+                        <div class="form-group">
+                            <label class="form-label">Hotel</label>
+                            <select class="form-control" data-val="true" data-val-required="*This Field is Required." id="ddlHotel" name="HotelId">
+                                <option value="-1">Select Hotel</option>
+                                <option value="104">jnsfjkdsbfhjdk</option>
+                                <option value="106">BASERA</option>
+                                <option value="ALL33">Rahi Tourist Bungalow</option>
+                                <option value="AYO66">Saryu Atithi Grah</option>
+                                <option value="BAD67">Rahi Tourist Bungalow</option>
+                                <option value="BTH70">Rahi Tourist Bungalow</option>
+                                <option value="ETW71">Rahi Tourist Bungalow</option>
+                                <option value="FRK61">Rahi Tourist Bungalow</option>
+                                <option value="GHZ65">Rahi Tourist Bungalow</option>
+                                <option value="GZH45">Rahi Tourist Bungalow</option>
+                                <option value="HTL10191">Rahi Tourist Bungalow</option>
+                                <option value="HTL10389">Rahi Gulistan Tourist Complex</option>
+                                <option value="HTL16720">Rahi Tourist Bungalow </option>
+                                <option value="HTL18824">Rahi Tourist Bungalow</option>
+                                <option value="HTL24279">Rahi Pathik Niwas</option>
+                                <option value="HTL33373">Rahi Tourist Bungalow</option>
+                                <option value="HTL38049">Rahi Triveni Darshan</option>
+                                <option value="HTL39354">Rahi Tourist Bungalow</option>
+                                <option value="HTL51674">Hotel Jahnavi</option>
+                                <option value="HTL63683">Hotel Saket</option>
+                                <option value="HTL66042">Rahi Tourist Bungalow Sarnath</option>
+                                <option value="HTL68300">Rahi Tourist Bungalow</option>
+                                <option value="HTL78404">Hotel Alaknanda</option>
+                                <option value="HTL78999">Hotel Bhagirathi</option>
+                                <option value="HTL82734">Hotel Gomti</option>
+                                <option value="HTL87951">Rahi Tourist Bungalow</option>
+                                <option value="HTL87980">Rahi Ilawart Tourist Bungalow</option>
+                                <option value="HTL91324">Rahi Veerangana Tourist Bungalow</option>
+                                <option value="HTL91840">Rahi Tourist Bungalow</option>
+                                <option value="HTL92418">Tourist Bunglow (Hotel Saras)</option>
+                                <option value="HTL97314">Hotel Tajkhema</option>
+                                <option value="HTL99957">Rahi Hotel Rohila</option>
+                                <option value="LKO52">Def Expo</option>
+                                <option value="LTC00001">Lcuknow Tent City(Available only 13,14,15 FEB)</option>
+                                <option value="MAU64">Rahi Tourist Bungalow</option>
+                                <option value="MHJ60">Rahi Tourist Bungalow  </option>
+                                <option value="MIR63">Yatri Niwas, Vindhyachal </option>
+                                <option value="SIT62">Rahi Tourist Bungalow </option>
+                                <option value="TTC00001">Triveni Tent City</option>
+
+                            </select>
+
+                            <span class="field-validation-valid error" data-valmsg-for="HotelId" data-valmsg-replace="true"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="form-label">Category Name</label>
+                            <input placeholder="Category Name" class="form-control" data-val="true" data-val-required="*This Field is Required." id="Category" name="Category" type="text" value="">
+                            <span class="field-validation-valid error" data-valmsg-for="Category" data-valmsg-replace="true"></span>
+                            <input data-val="true" data-val-number="The field ID must be a number." data-val-required="The ID field is required." id="ID" name="ID" type="hidden" value="0">
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-group" style="display:none">
+                        <label class="form-label">Price Per Room</label>
+                        <input placeholder="Price Per Room" class="form-control" data-val="true" data-val-number="The field Price must be a number." data-val-required="*This Field is Required." id="Price" name="Price" type="text" value="">
+                        <span class="field-validation-valid error" data-valmsg-for="Price" data-valmsg-replace="true"></span>
+
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-actions1">
+                            <div class="pull-right">
+                                <button class="btn btn-success btn-cons" type="submit"><i class="icon-ok"></i>Save</button>
+                                <a href="/Masters/ClearCatModel" class="btn btn-danger btn-cons" id="lnkCancel"><i class="fa fa-times"></i>Cancel</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>      
+    </div>
+</form>

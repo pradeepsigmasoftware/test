@@ -1,0 +1,200 @@
+﻿@model Hotel.Areas.Admin.DTO.CategoryMaster_Cls
+@using System.Data
+<script src="~/commonjs/dropdown.js"></script>
+<div class="row">
+
+
+	<div class="col-sm-6">
+
+		<ul class="breadcrumb">
+
+			<li><a href="/Admin/Dashboard" class="active"><i class="fa fa-list-alt"></i> Quick Navigation</a></li>
+			<li><span id="parapageheading"> Master - Category Master</span> </li>
+		</ul>
+	</div>
+	@* <div class="col-sm-3">
+	<div class="download_btn">
+	<a class="mew" href="../img/UPSTDC-LOGO.pdf">Download UPSTDC Logo</a>
+	</div>
+	</div> *@
+</div>
+
+<form method="post">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="grid simple form-grid">
+				<div class="grid-title no-border">
+					<h3 class="hdd1"> <strong>Category Master </strong> </h3>
+				</div>
+				<div class="grid-body no-border">
+
+					<div class="col-md-3">
+						<div class="form-group">
+							<label class="form-label">City</label>
+							<select class="form-control" data-val="true" data-val-required="*This Field is Required." id="ddlCity" name="CityId" onchange="BindHotelData('ddlCity')">
+								<option value="-1">Select City</option>
+							</select>
+							<span class="field-validation-valid error" data-valmsg-for="CityId" data-valmsg-replace="true"></span>
+
+						</div>
+					</div>
+
+					<div class="col-md-3">
+						<div class="form-group">
+							<label class="form-label">Hotel</label>
+							<select class="form-control" data-val="true" data-val-required="*This Field is Required." id="ddlHotel" name="HotelId">
+								<option value="">Select Hotel</option>
+							</select>
+							<span class="field-validation-valid error" data-valmsg-for="HotelId" data-valmsg-replace="true"></span>
+						</div>
+					</div>
+
+					<div class="col-md-3">
+						<div class="form-group">
+							<label class="form-label">Category Name</label>
+							<input placeholder="Category Name" class="form-control" data-val="true" data-val-required="*This Field is Required." id="Category" name="Category" type="text" value="">
+						</div>
+
+					</div>
+
+
+					<div class="form-group" style="display:none">
+						<label class="form-label">Price Per Room</label>
+						<input placeholder="Price Per Room" class="form-control" data-val="true" data-val-number="The field Price must be a number." data-val-required="*This Field is Required." id="Price" name="Price" type="text" value="">
+						<span class="field-validation-valid error" data-valmsg-for="Price" data-valmsg-replace="true"></span>
+
+					</div>
+					<div class="col-md-3">
+						<div class="form-actions1">
+							<div class="pull-right">
+								@Html.HiddenFor(a => a.Id)
+								<button class="btn btn-success btn-cons" type="submit" onclick="return Validation()"><i class="icon-ok"></i>Save</button>
+								<a href="/Masters/ClearCatModel" class="btn btn-danger btn-cons" id="lnkCancel"><i class="fa fa-times"></i>Cancel</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</form>
+<div class="col-md-12">
+	<div class="grid simple form-grid">
+		<div class="grid-title no-border">
+			<h3 class="hdd1"> <strong>Category Details</strong></h3>
+		</div>
+		<div class="grid-body">
+			<table class="table table-bordered DataTableS">
+				<thead>
+					<tr>
+
+						<th style="width: 10%">SrNo</th>
+						<th style="width: 10%">Hotel ID</th>
+						<th style="width: 20%">Hotel Category</th>
+						<th style="width: 20%">Hotel Name</th>
+						<th style="width: 50%">Hotel Address</th>
+						<th style="width: 10%">Edit</th>
+						<th style="width: 10%">Delete</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr role="row" class="odd">
+						@{
+							int srno = 1;
+							if (Model.dt != null && Model.dt.Rows.Count > 0)
+							{
+								foreach (DataRow item in Model.dt.Rows)
+								{
+								<tr>
+									<td>@srno</td>
+									<td>@item["HotelId"]</td>
+									<td>@item["Category"]</td>
+									<td>@item["HotelName"]</td>
+									<td>@item["Address"]</td>
+									<td>
+										<a href="/admin/Master/CategoryMaster?CID=@item["Id"]" class="btn btn-primary btn-small" id="lnkEdit"><i class="fa fa-pencil"></i></a>
+									</td>
+									<td>
+										<a href="/Masters/DeleteConfirmed?HID=HTL97314" class="btn btn-danger btn-small" id="lnkDelete" onclick="return confirm('Are you sure to delete this hotel?')"><i class="fa fa-trash"></i></a>
+
+									</td>
+								</tr>
+									srno++;
+								}
+							}
+						}
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+	</div>
+</div>
+
+
+
+<script>
+	$(document).ready(function () {
+		BindCityWithoutId();
+
+		$('#Category').val('@Model.Category');
+		// $('#ddlHotel').val('Model.HotelId');
+		//  $('#ddlCity').val('Model.CityId');
+
+
+	});
+
+
+	function BindCityWithoutId() {
+		$.post('/admin/master/BindCityWithoutId', {}, function (result) {
+			$("#ddlCity").empty();
+			$.each(result, function (i, data) {
+				$("#ddlCity").append("<option value='" + data.value + "'> " + data.text + "</option>")
+			});
+
+			if ('@Model.CityId' != '' && '@Model.CityId' != undefined && '@Model.CityId' != '0') {
+				$("#ddlCity").val('@Model.CityId');
+
+				BindHotelData();
+			}
+		});
+	}
+
+
+	function BindHotelData() {
+		$.post('/admin/master/BindHotelMaster', { id: $("#ddlCity").val() }, function (result) {
+			$("#ddlHotel").empty();
+			$.each(result, function (i, data) {
+				$("#ddlHotel").append("<option value='" + data.value + "'> " + data.text + "</option>");
+			});
+
+			if ('@Model.HotelId' !== '' && '@Model.HotelId' !== undefined && '@Model.HotelId' !== '0') {
+				$("#ddlHotel").val('@Model.HotelId');
+			}
+		});
+	}
+
+	function Validation() {
+		var ddlCity = $('#ddlCity').val();
+		var ddlHotel = $('#ddlHotel').val();
+		var Category = $('#Category').val();
+
+		if (ddlCity == '') {
+			alert("Please Select City !!!");
+			$('#ddlCity').focus();
+			return false
+		}
+		if (ddlHotel == '') {
+			alert("Please Select Hotel !!!");
+			$('#ddlHotel').focus();
+			return false
+		}
+		if (Category == '') {
+			alert("Please Enter The Hotel Category !!!");
+			$('#Category').focus();
+			return false
+		}
+	}
+
+</script>

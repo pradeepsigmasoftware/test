@@ -1,0 +1,28 @@
+﻿.col-sm-12.charges6 {
+    margin-top: 2px;
+}
+
+.customizerate {
+    width: 80px;
+}
+
+.CWtotalRoomcharge {
+    font-weight: 600;
+    font-size: 14px;
+    color: red;
+    margin-top: 10%;
+}
+
+.totalRoomcharge {
+    font-weight: bold;
+    font-size: 18px;
+    color: red;
+}
+.tt1 {
+    color: #9C27B0;
+    font-weight: bold;
+}
+.tt2 {
+    color: red;
+    font-weight: bold;
+}

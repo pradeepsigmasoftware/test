@@ -1,0 +1,419 @@
+﻿@model Hotel.Areas.Admin.DTO.HotelDTO_Cls
+@using System.Data
+
+<div class="row">
+
+
+	<div class="col-sm-6">
+
+		<ul class="breadcrumb">
+
+			<li><a href="/Admin/Dashboard" class="active"><i class="fa fa-list-alt"></i> Quick Navigation</a></li>
+			<li><span id="parapageheading"> Master - Hotel Master</span> </li>
+		</ul>
+
+	</div>
+</div>
+
+
+<form action="AddHotel" enctype="multipart/form-data" method="post" novalidate="novalidate">
+	<div class="row" id="DivNew" style="display: none">
+		<div class="col-md-12">
+			<div class="grid simple form-grid">
+				<div class="grid-title no-border">
+					<h3 class="hdd1">Add  Hotel </h3>
+
+				</div>
+				<input type="hidden" id="hd_CityId" value="@Model.CityId" />
+				<div class="grid-body no-border">
+					<div class="row">
+
+						<div class="col-md-3">
+							<div class="form-group">
+								<label class="form-label">Hotel Name</label>
+								<input placeholder="Hotel Name" class="form-control" id="HotelName" name="HotelName" type="text">
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="form-group">
+								<label class="form-label">Hotel Code</label>
+								<div class="input-with-icon right">
+									<input maxlength="10" placeholder="Hotel Code" class="form-control" id="HotalCodenew" name="HotalCodenew">
+
+								</div>
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="form-group">
+								<label class="form-label">Contact No</label>
+								<div class="input-with-icon right">
+									<input maxlength="10" placeholder="Mobile No" class="form-control" id="ContactNo" name="ContactNo">
+
+								</div>
+							</div>
+						</div>
+
+						<div class="col-md-3">
+							<div class="form-group">
+								<label class="form-label">Email Id.</label>
+								<input placeholder="Please Enter Email" class="form-control" id="EmailId" name="EmailId" type="text" value="">
+
+							</div>
+						</div>
+
+						<div class="col-md-3">
+							<div class="form-group">
+								<label class="form-label">Landline No.</label>
+								<input placeholder="Landline No" class="form-control" id="txtLandline" name="Landline" type="text" value="">
+
+							</div>
+						</div>
+
+						<div class="col-md-5">
+							<div class="form-group">
+								<label class="form-label">Address</label>
+								<div class="input-with-icon right manht">
+									<i class=""></i>
+									<textarea placeholder="Address" class="form-control" cols="20" id="txtAddress" name="Address" rows="2"></textarea>
+
+								</div>
+							</div>
+						</div>
+
+						<div class="row" style="display:none">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label class="form-label">Latitude</label>
+									<div class="input-with-icon right">
+										<i class=""></i>
+										<input placeholder="Latitude" class="form-control" id="txtLatitude" name="Latitude" type="text" value="">
+									</div>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label class="form-label">Longitude</label>
+									<div class="input-with-icon right">
+										<i class=""></i>
+										<input placeholder="Longitude" class="form-control" id="txtLongitude" name="Longitude" type="text" value="">
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-md-2">
+							<div class="form-group">
+								<label class="form-label">State</label>
+								<select id="ddlState" class="form-control" name="StateId" onchange="BindCity('ddlState')"></select>
+								<span class="field-validation-valid error" data-valmsg-for="StateId" data-valmsg-replace="true"></span>
+							</div>
+						</div>
+
+						<div class="col-md-2">
+							<div class="form-group" id="City">
+								<label class="form-label">City</label>
+								<select class="form-control" id="ddlCity" name="CityId">
+									<option value="-1">Select City</option>
+								</select>
+
+
+								<span class="field-validation-valid error" data-valmsg-for="CityId" data-valmsg-replace="true"></span>
+							</div>
+						</div>
+
+						@*  <div class="col-md-3">
+						<div class="form-group">
+						<label class="form-label">Email Id</label>
+						<div class="input-with-icon right">
+						<i class=""></i>
+						<input type="text" placeholder="Email Address" class="form-control" id="txtEmailId" name="EmailId" value="EmailId">
+
+						<span class="field-validation-valid error" data-valmsg-for="EmailId" data-valmsg-replace="true"></span>
+
+						</div>
+						</div>
+						</div> *@
+
+
+					</div>
+
+
+					<div class="row">
+						<div class="col-md-3">
+							<div class="form-group">
+								<label class="form-label">Browse Image</label>
+								<input id="fuUpload" class="form-control" name="Image" type="file" value="Image">
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="form-group">
+								@if (@Model != null)
+								{
+									<img id="Preview" src="@Model.ImageURL" alt="your image" style="width: 100%;height:30%" />
+								}
+								else
+								{
+
+									<img id="Preview" src="#" alt="your image" style="width: 100%;height:30%" />
+								}
+
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group">
+								<label class="form-label">Hotel Description</label>
+								<div class="input-with-icon right">
+									<i class=""></i>
+									<textarea class="form-control" id="FullDescription" name="Description">
+										@Html.Raw(Model.Description)
+									</textarea>
+									<script>
+
+										CKEDITOR.replace("FullDescription")
+
+									</script>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-md-4"> </div>
+						<div class="col-md-4">
+							<div class="form-group">
+								<div class="text-center">
+									@Html.HiddenFor(a => a.HotelId)
+									<button class="btn btn-success btn-cons" type="submit" id="btnSubmit" onclick="return Validation()"><i class="fa fa-check"></i>Save</button>
+									<a href="/Masters/ClearModel" class="btn btn-danger btn-cons" id="lnkCancel"><i class="fa fa-times"></i>Cancel</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</form>
+<div class="row" id="DivView" style="display: block;">
+	<div class="col-md-12">
+		<div class="grid simple form-grid">
+			<div class="grid-title no-border">
+				<div class="row">
+					<div class="col-md-4">
+					</div>
+					<div class="col-md-4">
+						<h3 class="hdd1">Add Hotel </h3>
+					</div>
+					<div class="col-md-4">
+						<div class="text-right">
+							<button class="btn btn-small btn-primary btn-demo-space" type="button" id="btnNew">Add New</button>
+							<button class="btn btn-small btn-white btn-demo-space" type="button" id="btnView">View All</button>
+						</div>
+					</div>
+				</div>
+
+
+			</div>
+			<div class="grid-body no-border">
+
+				<div class="grid-body">
+
+					<table class="table table-bordered DataTableS">
+						<tr role="row" class="odd">
+							<th class="sorting_1">SR.No.</th>
+							<th>HOTEL NAME</th>
+							<th>HOTEL CODE</th>
+							<th>Hotel ADDRESS</th>
+							<th>CONTACT NO.</th>
+							<th>LANDLINE NO.</th>
+							<th>EMIAL ID</th>
+							<th>STATE</th>
+							<th>CITY</th>
+							<th>DESCRIPTION</th>
+							<th>IMAGE</th>
+							<th colspan="2">ACTION</th>
+
+						</tr>
+						<tr>
+							@{
+								int srno = 1;
+								if (Model.dt != null && Model.dt.Rows.Count > 0)
+								{
+									foreach (DataRow item in Model.dt.Rows)
+									{
+									<tr>
+										<td>@srno</td>
+										<td>@item["HotelName"]</td>
+										<td>@item["HotalCodenew"]</td>
+										<td>@item["Address"]</td>
+										<td>@item["ContactNo"]</td>
+										<td>@item["Landline"]</td>
+										<td>@item["EmailId"]</td>
+										<td>@item["StateName"]</td>
+										<td>@item["CityName"]</td>
+										<td>@item["Description"]</td>
+										<td>
+											<img src="@item["ImageURL"]" height="70" width="70" asp-append-version="true" />
+										</td>
+										<td>
+											<a href="/admin/master/AddHotel?HID=@item["HotelId"]" class="btn btn-primary btn-small" id="lnkEdit"><i class="fa fa-pencil"></i>
+										</td>
+										<td>
+											<a href="/Masters/DeleteConfirmed?HID=HTL97314" class="btn btn-danger btn-small" id="lnkDelete" onclick="return confirm('Are you sure to delete this hotel?')"><i class="fa fa-trash"></i></a>
+
+										</td>
+									</tr>
+										srno++;
+									}
+								}
+							}
+						</tr>
+
+					</table>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	var val = '@Model.HotelId';
+	debugger;
+	if (val != "") {
+		document.getElementById("DivNew").style.display = "block";
+		document.getElementById("DivView").style.display = "none";
+	}
+	else {
+		document.getElementById("DivNew").style.display = "none";
+		document.getElementById("DivView").style.display = "block";
+	}
+	$('#btnRommView').click(function () {
+		$('#DivView').hide();
+		$('#DivNew').hide();
+		$('#DivEdit').hide();
+		$('#DivViewImege').show();
+	});
+
+	$('#btnNew').click(function () {
+		$('#DivView').hide();
+		$('#DivNew').show();
+		$('#DivViewImege').hide();
+		BindState();
+
+	});
+
+	$(document).ready(function () {
+		$('#HotelName').val('@Model.HotelName');
+		$('#HotalCodenew').val('@Model.HotalCodenew');
+		$('#ContactNo').val('@Model.ContactNo');
+		$('#txtAddress').val('@Model.Address');
+		$('#EmailId').val('@Model.EmailId');
+		$('#txtLandline').val('@Model.Landline');
+
+		BindState();
+
+	});
+
+	function BindState() {
+		$.post('/admin/master/BindStateData', {}, function (result) {
+			$("#ddlState").empty();
+			$.each(result, function (i, data) {
+				$("#ddlState").append("<option value='" + data.value + "'> " + data.text + "</option>")
+			});
+
+			if ('@Model.StateId' != '' && '@Model.StateId' != undefined && '@Model.StateId' != '0') {
+				$("#ddlState").val('@Model.StateId');
+
+				BindCity();
+			}
+		});
+	}
+
+	function BindCity() {
+		$.post('/admin/master/BindCityData', { stateId: $("#ddlState").val() }, function (result) {
+			$("#ddlCity").empty();
+			$.each(result, function (i, data) {
+				$("#ddlCity").append("<option value='" + data.value + "'> " + data.text + "</option>");
+			});
+
+			if ('@Model.CityId' !== '' && '@Model.CityId' !== undefined && '@Model.CityId' !== '0') {
+				$("#ddlCity").val('@Model.CityId');
+			}
+		});
+	}
+
+
+	function Validation() {
+		var HotelName = $('#HotelName').val();
+		var HotalCode = $('#HotalCodenew').val();
+		var ContactNo = $('#ContactNo').val();
+		var Address = $('#txtAddress').val();		
+		var emailId = $('#EmailId').val();
+		var ddlState = $('#ddlState').val();
+		var ddlCity = $('#ddlCity').val();
+		var fuUpload = $('#fuUpload').val();
+
+		if (HotelName == "") {
+			alert("Please Enter Hotel Name !!!");
+			$("#HotelName").focus();
+			return false
+		}
+		if (HotalCode == "") {
+			alert("Please Enter Hotel Code !!!");
+			$("#HotalCodenew").focus();
+			return false
+		}
+		if (ContactNo == "") {
+			alert("Please Enter Contact Number !!!");
+			$("#ContactNo").focus();
+			return false
+		}
+
+		if (emailId == "") {
+			alert("Please Enter Email Id !!!");
+			$("#EmailId").focus();
+			return false
+		}
+
+		if (Address == "") {
+			alert("Please Enter Full Address !!!");
+			$("#txtAddress").focus();
+			return false
+		}
+
+
+		if (ddlState == "") {
+			alert("Please Select State !!!");
+			$("#ddlState").focus();
+			return false
+		}
+		if (ddlCity == "") {
+			alert("Please Select City Name !!!");
+			$("#ddlCity").focus();
+			return false
+		}
+
+		if (fuUpload == "") {
+			alert("Please Select Image !!!");
+			$("#fuUpload").focus();
+			return false
+		}
+	}
+
+
+</script>
+
+@section Scripts {
+	<script src="https://cdn.ckeditor.com/ckeditor5/33.0.0/classic/ckeditor.js"></script>
+	<script>
+		ClassicEditor
+			.create(document.querySelector('#FullDescription'))
+			.catch(error => {
+				console.error(error);
+			});
+	</script>
+}

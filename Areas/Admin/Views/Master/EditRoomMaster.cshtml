@@ -1,0 +1,218 @@
+﻿@model Hotel.Areas.Admin.DTO.BookingRoomDetails_Cls
+@using System.Data
+
+<div class="row">
+
+	<div class="col-sm-6">
+		<ul class="breadcrumb">
+			<li><a href="/Admin/Dashboard" class="active"><i class="fa fa-list-alt"></i> Quick Navigation</a></li>
+			<li><span id="parapageheading">Masters - Room Master</span> </li>
+		</ul>
+
+	</div>
+	@*
+
+	<div class="col-sm-3">
+	<div class="download_btn">
+	<a class="mew" href="../img/UPSTDC-LOGO.pdf">Download UPSTDC Logo</a>
+	</div>
+	</div> *@
+</div>
+
+
+<script type="text/javascript">
+
+	function updatestatus(roomId, mode, _this) {
+		debugger
+		var status = $(_this).prop('checked');
+
+		$.post('/Admin/Master/IsActiveAndOffline', { roomId: roomId, mode: mode, status: status }, function (r) {
+			if (r == "1") {
+				console.log("Data Saved Successfully !!!");
+			}
+			else if (r == "0") {
+				console.log("Data not Saved !!!");
+			}
+			else {
+				console.log("server Not Found!!!");
+			}
+		})
+	}
+
+</script>
+<style>
+	.switch {
+		position: relative;
+		display: inline-block;
+		width: 60px;
+		height: 34px;
+	}
+
+		.switch input {
+			opacity: 0;
+			width: 0;
+			height: 0;
+		}
+
+	.slider {
+		position: absolute;
+		cursor: pointer;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background-color: #ccc;
+		-webkit-transition: .4s;
+		transition: .4s;
+		border-radius: 34px;
+	}
+
+		.slider:before {
+			position: absolute;
+			content: "";
+			height: 25px;
+			width: 26px;
+			left: 4px;
+			bottom: 0px;
+			background-color: white;
+			-webkit-transition: .4s;
+			transition: .4s;
+			border-radius: 50%;
+		}
+
+	input:checked + .slider {
+		background-color: #2196F3;
+	}
+
+	input:focus + .slider {
+		box-shadow: 0 0 1px #2196F3;
+	}
+
+	input:checked + .slider:before {
+		-webkit-transform: translateX(26px);
+		-ms-transform: translateX(26px);
+		transform: translateX(26px);
+	}
+</style>
+
+<script>
+	$('#parapageheading').text('Room Details');
+</script>
+
+
+<form action="/Admin/Master/EditRoomMaster" method="post" novalidate="novalidate">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="grid simple form-grid">
+				<div class="grid-title no-border">
+					<h3 class="hdd1"><strong> Room Details </strong> </h3>
+
+				</div>
+				<div class="grid-body">
+					<script>
+						$(document).ready(function () {
+							$(".DataTableS").DataTable({
+								dom: 'Bfrtip',
+								pageLength: 10,
+								lengthMenu: [[10, 15, 20, 50, 100, 500, -1], [10, 15, 20, 50, 100, 500, "All"]],
+								buttons: [
+									'pageLength',
+									{
+										extend: 'excelHtml5', footer: true,
+									},
+									{ extend: 'csvHtml5', footer: true },
+									{
+										extend: 'pdfHtml5', footer: true, orientation: 'landscape',
+
+										pageSize: 'LEGAL',
+										text: '<i class="fa fa-file-pdf-o"> PDF</i>',
+										titleAttr: 'PDF'
+									}
+								]
+							});
+						});
+
+					</script>
+					<div class="">
+						<table class="table table-bordered  DataTableS">
+							<thead>
+								<tr role="row">
+									<th aria-sort="ascending" aria-label="SrNo: activate to sort column descending">SrNo</th>
+									<th aria-label="Start Amount: activate to sort column ascending">Hotel Name</th>
+									<th aria-label="End Amount: activate to sort column ascending">Category</th>
+									<th aria-label="GST Per: activate to sort column ascending">Rooms</th>
+									<th aria-label="Edit: activate to sort column ascending">Is Active</th>
+									<th aria-label="Delete: activate to sort column ascending">Is OffiLine</th>
+								</tr>
+							</thead>
+							<tbody>
+								@{
+									int srno = 1;
+									if (Model.dt == null)
+									{
+												<tr class="odd"><td valign="top" colspan="6" class="dataTables_empty">No data available in table</td></tr>
+									}
+									else if (Model.dt != null && Model.dt.Rows.Count > 0)
+									{
+										foreach (DataRow dr in Model.dt.Rows)
+										{
+													<tr class="odd" style="text-align:center;">
+														<td>@srno</td>
+														<td>@dr["HotelName"]</td>
+														<td>@dr["Category"]</td>
+														<td>@dr["RoomNo"]</td>
+														<td>
+															@if((bool)@dr["IsActive"])
+													{
+																<label class="switch">
+																	<input type="checkbox" checked onchange="updatestatus(@dr["RoomId"],'1',this)">
+
+																	<span class="slider"></span>
+																</label>
+													}
+													else
+													{
+																<label class="switch">
+																	<input type="checkbox" onchange="updatestatus(@dr["RoomId"],'1',this)">
+
+																	<span class="slider"></span>
+																</label>
+													}
+
+														</td>
+														<td>
+															@if ((bool)@dr["IsOffLine"])
+													{
+																<label class="switch">
+																	<input type="checkbox" checked onchange="updatestatus(@dr["RoomId"],'2',this)">
+																	<span class="slider"></span>
+																</label>														
+													}
+													else
+													{
+																<label class="switch">
+																	<input type="checkbox" onchange="updatestatus('@dr["RoomId"]','2',this)">
+																	<span class="slider"></span>
+																</label>
+													}
+															
+														</td>
+
+													</tr>
+											srno++;
+										}
+									}
+								}
+							</tbody>
+						</table>
+
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</form>
+<script>
+
+</script>

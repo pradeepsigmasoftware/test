@@ -1,0 +1,116 @@
+﻿@model Hotel.Areas.Admin.DTO.Login_Cls
+@using System.Data
+<div class="row">
+
+
+	<div class="col-sm-6">
+
+		<ul class="breadcrumb">
+
+			<li><a href="/Admin/Dashboard" class="active"><i class="fa fa-list-alt"></i> Quick Navigation</a></li>
+			<li><span id="parapageheading">User Details</span> </li>
+		</ul>
+
+	</div>
+	@*  <div class="col-sm-3">
+	<div class="download_btn">
+	<a class="mew" href="../img/UPSTDC-LOGO.pdf">Download UPSTDC Logo</a>
+	</div>
+	</div> *@
+</div>
+
+
+
+
+<script>
+	$('#parapageheading').text('User Details');
+</script>
+<script>
+	$(document).ready(function () {
+		$(".DataTableS").DataTable({
+			dom: 'Bfrtip',
+			pageLength: 10,
+			lengthMenu: [[10, 15, 20, 50, 100, 500, -1], [10, 15, 20, 50, 100, 500, "All"]],
+			buttons: [
+				'pageLength',
+				{
+					extend: 'excelHtml5', footer: true,
+				},
+				{ extend: 'csvHtml5', footer: true },
+				{
+					extend: 'pdfHtml5', footer: true, orientation: 'landscape',
+
+					pageSize: 'LEGAL',
+					text: '<i class="fa fa-file-pdf-o"> PDF</i>',
+					titleAttr: 'PDF'
+				}
+			]
+		});
+	});
+</script>
+
+<div class="page-title">
+	<div class="row">
+		<div class="col-md-9">
+		</div>
+		<div class="col-md-3" style="display:none">
+			<button class="btn btn-small btn-success btn-demo-space" type="submit" id="btnNew">Add New</button>
+			<button class="btn btn-small btn-white btn-demo-space" type="button" id="btnView">View All</button>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-12">
+		<div class="grid simple form-grid">
+			<div class="grid-title no-border">
+				<h3 class="hdd1"><strong>User Details </strong> </h3>
+
+			</div>
+			<div class="grid-body no-border">
+				<table class="table table-bordered DataTableS  dataTable no-footer" id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info">
+					<thead>
+						<tr role="row">
+							<th class="sorting_asc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Sr No.: activate to sort column descending" style="width: 80.7778px;">Sr No.</th>
+							<th style="width: 141.778px;" class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="User ID: activate to sort column ascending">User ID</th>
+							<th style="width: 281.778px;" class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Hotel Name: activate to sort column ascending">Hotel Name</th>
+							<th style="width: 281.778px;" class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Email Address: activate to sort column ascending">Email Address</th>
+							<th style="width: 177.778px;" class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Password: activate to sort column ascending">Password</th>
+							<th style="width: 281.778px;" class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Reg. Date: activate to sort column ascending">Reg. Date</th>
+							<th style="width: 133.778px;" class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Block User: activate to sort column ascending">Block User</th>
+						</tr>
+					</thead>
+					<a href="#"></a>
+
+					<tbody>
+						@{
+							int srno = 1;
+							if (Model.dt != null && Model.dt.Rows.Count > 0)
+							{
+								foreach (DataRow dr in Model.dt.Rows)
+								{
+									<tr role="row" class="odd">
+										<td>@srno</td>
+										<td>@dr["userName"]</td>
+										<td>@dr["HotelName"]</td>
+										<td>@dr["EmailId"]</td>
+										<td style="color:red">@dr["password"]</td>
+										<td>@dr["EntryDate"]</td>
+
+										<td>
+											<a href="/User/BlockUser?userId=9415233440" class="btn btn-info btn-small" id="lnkEdit" onclick="return confirm('Are you sure to Block this User?')"><i class="fa fa-key"></i></a>
+
+										</td>
+									</tr>
+									srno++;
+								}
+							}
+						}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+</div>
